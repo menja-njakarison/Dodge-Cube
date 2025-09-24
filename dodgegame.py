@@ -1,6 +1,7 @@
 ## Importation des librairies necessaires
 import pygame
 import random
+import math
 
 ## Initialisation de pygame
 pygame.init()
