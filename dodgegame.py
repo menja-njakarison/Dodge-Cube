@@ -6,30 +6,30 @@ import math
 ## Initialisation de pygame
 pygame.init()
 
-display_width = 880
-display_height = 600
-color1 = (51,204,204)
-color2 = (0,0,0)
-color3 = (255, 0, 0)
-display = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption("Dodger Game Using Pygame")
-frame_rate = pygame.time.Clock()
-gamer_detail = 45
-gamer_movement = [display_width // 2, display_height - 2 * gamer_detail]
+largeur_ecran = 880
+hauteur_ecran = 600
+couleur_1 = (51,204,204)
+couleur_2 = (0,0,0)
+couleur_3 = (255, 0, 0)
+display = pygame.display.set_mode((largeur_ecran, hauteur_ecran))
+pygame.display.set_caption("Dodge Cube avec Pygame")
+f_rate = pygame.time.Clock()
+detail_joueur = 45
+mvm_joueur = [largeur_ecran // 2, hauteur_ecran - 2 * detail_joueur]
 
-gamer_speed = 15
-to_dodge_detail = 45
-to_dodge_position1 = [random.randint(0, display_width - to_dodge_detail), 0]
-to_dodge_position2 = [random.randint(0, display_width - to_dodge_detail), 0]
-to_dodge_speed = 10
+vitesse_joueur = 15
+detail_jeu = 45
+position_1 = [random.randint(0, largeur_ecran - detail_jeu), 0]
+position_2 = [random.randint(0, largeur_ecran - detail_jeu), 0]
+vitesse_jeu_d = 10
 points = 0
 font = pygame.font.SysFont("calibri", 35)
 
-def check_for_colision(gamer_movement, enemy_pos):
-    p_x, p_y = gamer_movement
+def check_for_colision(mvm_joueur, enemy_pos):
+    p_x, p_y = mvm_joueur
     e_x, e_y = enemy_pos
-    if (e_x < p_x < e_x + to_dodge_detail or e_x < p_x + gamer_detail < e_x + to_dodge_detail) and \
-            (e_y < p_y < e_y + to_dodge_detail or e_y < p_y + gamer_detail < e_y + to_dodge_detail):
+    if (e_x < p_x < e_x + detail_jeu or e_x < p_x + detail_joueur < e_x + detail_jeu) and \
+            (e_y < p_y < e_y + detail_jeu or e_y < p_y + detail_joueur < e_y + detail_jeu):
         return True
     return False
 
@@ -40,42 +40,42 @@ while not game_over:
             game_over = True
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        gamer_movement[0] -= gamer_speed
+        mvm_joueur[0] -= vitesse_joueur
     if keys[pygame.K_RIGHT]:
-        gamer_movement[0] += gamer_speed
-    if gamer_movement[0] < 0:
-        gamer_movement[0] = 0
-    elif gamer_movement[0] > display_width - gamer_detail:
-        gamer_movement[0] = display_width - gamer_detail
-    display.fill(color2)
-    to_dodge_position1[1] += to_dodge_speed
-    to_dodge_position2[1] += to_dodge_speed
-    if to_dodge_position1[1] > display_height:
-        to_dodge_position1 = [random.randint(0, display_width - to_dodge_detail), 0]
+        mvm_joueur[0] += vitesse_joueur
+    if mvm_joueur[0] < 0:
+        mvm_joueur[0] = 0
+    elif mvm_joueur[0] > largeur_ecran - detail_joueur:
+        mvm_joueur[0] = largeur_ecran - detail_joueur
+    display.fill(couleur_2)
+    position_1[1] += vitesse_jeu_d
+    position_2[1] += vitesse_jeu_d
+    if position_1[1] > hauteur_ecran:
+        position_1 = [random.randint(0, largeur_ecran - detail_jeu), 0]
         points += 1  
-        to_dodge_speed += 0.5 
-    if to_dodge_position2[1] > display_height:
-        to_dodge_position2 = [random.randint(0, display_width - to_dodge_detail), 0]
+        vitesse_jeu_d += 0.5 
+    if position_2[1] > hauteur_ecran:
+        position_2 = [random.randint(0, largeur_ecran - detail_jeu), 0]
         points += 1  
-        to_dodge_speed += 0.5 
-    if check_for_colision(gamer_movement, to_dodge_position1) or check_for_colision(gamer_movement,
-                                                                                   to_dodge_position2):
+        vitesse_jeu_d += 0.5 
+    if check_for_colision(mvm_joueur, position_1) or check_for_colision(mvm_joueur,
+                                                                                   position_2):
         game_over = True
         break
-    pygame.draw.rect(display, color3, (to_dodge_position1[0], to_dodge_position1[1],
-                                       to_dodge_detail, to_dodge_detail))
-    pygame.draw.rect(display, color3, (to_dodge_position2[0], to_dodge_position2[1], 
-                                       to_dodge_detail, to_dodge_detail))
-    pygame.draw.rect(display, color1, (gamer_movement[0], gamer_movement[1],
-                                       gamer_detail, gamer_detail))
-    score_text = font.render("Score: {}".format(points), True, color1)
+    pygame.draw.rect(display, couleur_3, (position_1[0], position_1[1],
+                                       detail_jeu, detail_jeu))
+    pygame.draw.rect(display, couleur_3, (position_2[0], position_2[1], 
+                                       detail_jeu, detail_jeu))
+    pygame.draw.rect(display, couleur_1, (mvm_joueur[0], mvm_joueur[1],
+                                       detail_joueur, detail_joueur))
+    score_text = font.render("Score: {}".format(points), True, couleur_1)
     display.blit(score_text, (10, 10))
     pygame.display.update()
-    frame_rate.tick(30)
+    f_rate.tick(30)
 
-display.fill(color2)
-game_over_text = font.render("Final Score: {}".format(points), True, color1)
-display.blit(game_over_text, (display_width // 2 - 200, display_height // 2 - 20))
+display.fill(couleur_2)
+game_over_text = font.render("Final Score: {}".format(points), True, couleur_1)
+display.blit(game_over_text, (largeur_ecran // 2 - 200, hauteur_ecran // 2 - 20))
 pygame.display.update()
 pygame.time.wait(3000)
 pygame.quit()
