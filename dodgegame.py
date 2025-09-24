@@ -6,6 +6,7 @@ import math
 ## Initialisation de pygame
 pygame.init()
 
+## Configuration de l'affichage et autres parametres du jeu
 largeur_ecran = 880
 hauteur_ecran = 600
 couleur_1 = (51,204,204)
@@ -25,7 +26,8 @@ vitesse_jeu_d = 10
 points = 0
 font = pygame.font.SysFont("calibri", 35)
 
-def check_for_colision(mvm_joueur, enemy_pos):
+## Fonctions gerant la collision 
+def gestion_collision(mvm_joueur, enemy_pos):
     p_x, p_y = mvm_joueur
     e_x, e_y = enemy_pos
     if (e_x < p_x < e_x + detail_jeu or e_x < p_x + detail_joueur < e_x + detail_jeu) and \
@@ -34,6 +36,8 @@ def check_for_colision(mvm_joueur, enemy_pos):
     return False
 
 game_over = False
+
+## Debut du jeu
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -58,7 +62,7 @@ while not game_over:
         position_2 = [random.randint(0, largeur_ecran - detail_jeu), 0]
         points += 1  
         vitesse_jeu_d += 0.5 
-    if check_for_colision(mvm_joueur, position_1) or check_for_colision(mvm_joueur,
+    if gestion_collision(mvm_joueur, position_1) or gestion_collision(mvm_joueur,
                                                                                    position_2):
         game_over = True
         break
